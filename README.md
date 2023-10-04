@@ -1,3 +1,9 @@
+---
+noteId: "6561ba9062aa11ee942abf767783f33c"
+tags: []
+
+---
+
 # OOP-clases
 OOP classes
 
