@@ -3,53 +3,34 @@ class Faculty:
         self.name = name
         self.abbreviation = abbreviation
         self.students = []
+        self.graduates = []
         self.studyField = studyField
-        
+
     def add_student(self, student):
         self.students.append(student)
-        print(f"{student.firstName} {student.lastName} has been added to the {self.name} faculty.")
-        
-    def graduate_student(self, email):
-        for student in self.students:
-            if student.email == email and not student.graduated:
-                student.graduated = True
-                print(f"{student.firstName} {student.lastName} has graduated from the {self.name} faculty.")
-                return True
-        print("Student not found in this faculty or already graduated!")
-        return False
 
-    def display_current_students(self):
-        print(f"Current enrolled students in {self.name} faculty are:")
-        found = False
+    def graduate_student(self, student):
+        if student in self.students:
+            self.students.remove(student)
+            self.graduates.append(student)
+            print(f"{student} has graduated from {self.name}!")
+        else:
+            print(f"{student} is not enrolled in {self.name}.")
+
+    def display_students(self):
+        print(f"Students enrolled in {self.name}:")
         for student in self.students:
-            if not student.graduated:
-                print(f"{student.firstName} {student.lastName} ({student.email})")
-                found = True
-        if not found:
-            print("No currently enrolled students.")
+            print(student)
 
     def display_graduates(self):
-        print(f"Graduates from {self.name} faculty are:")
-        found = False
-        for student in self.students:
-            if student.graduated:
-                print(f"{student.firstName} {student.lastName} ({student.email})")
-                found = True
-        if not found:
-            print("No graduates yet.")
-            
-    def student_belongs(self, student_email):
-        for student in self.students:
-            if student.email == student_email and not student.graduated:
-                return True
+        print(f"Graduates from {self.name}:")
+        for grad in self.graduates:
+            print(grad)
+
+    def __str__(self):
+        return self.name
+    
+    def student_belongs_to(self, student):
+        if student in self.students or student in self.graduates:
+            return True
         return False
-    
-    def find_student(self, student_email):
-        for student in self.students:
-            if student.email == student_email:
-                return True
-        return False
-    
-    def display_study_field(self):
-        return self.studyField
-    
