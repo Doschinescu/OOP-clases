@@ -1,9 +1,3 @@
----
-noteId: "78bc3dc062b111eea366cd6cdc4bae10"
-tags: []
-
----
-
 # OOPLab1
 TUM Laboratory work Nr.1 OOP 
 

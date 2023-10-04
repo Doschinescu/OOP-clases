@@ -1,46 +1,55 @@
-from studyfield import StudyField
-
 class Faculty:
-    def __init__(self, name, abbreviation, study_field):
+    def __init__(self, name, abbreviation, studyField):
         self.name = name
         self.abbreviation = abbreviation
-        try:
-            self.study_field = StudyField[study_field]
-        except KeyError:
-            raise ValueError(f"Invalid study field: {study_field}")
-        self.enrolled_students = []
-        self.graduated_students = []
-
+        self.students = []
+        self.studyField = studyField
+        
     def add_student(self, student):
-        if student.graduated:
-            self.graduated_students.append(student)
-        else:
-            self.enrolled_students.append(student)
+        self.students.append(student)
+        print(f"{student.firstName} {student.lastName} has been added to the {self.name} faculty.")
+        
+    def graduate_student(self, email):
+        for student in self.students:
+            if student.email == email and not student.graduated:
+                student.graduated = True
+                print(f"{student.firstName} {student.lastName} has graduated from the {self.name} faculty.")
+                return True
+        print("Student not found in this faculty or already graduated!")
+        return False
 
-    def validate_student_graduation(self, student):
-        if student in self.graduated_students:
-            print(f"{student.first_name} {student.last_name} has already graduated from {self.abbreviation}.")
-            return False
-        elif student in self.enrolled_students:
-            self.enrolled_students.remove(student)
-            self.graduated_students.append(student)
-            student.graduated = True
-            print(f"Student {student.first_name} {student.last_name} has graduated from {self.abbreviation}.")
-            return True
-        else:
-            print(f"{student.first_name} {student.last_name} is not enrolled in {self.name}.")
-            return False
+    def display_current_students(self):
+        print(f"Current enrolled students in {self.name} faculty are:")
+        found = False
+        for student in self.students:
+            if not student.graduated:
+                print(f"{student.firstName} {student.lastName} ({student.email})")
+                found = True
+        if not found:
+            print("No currently enrolled students.")
 
-
-    def get_enrolled_students(self):
-        return self.enrolled_students
-
-    def get_graduated_students(self):
-        return self.graduated_students
-
-    def check_student_belongs(self, email):
-        return any(student.email == email for student in self.enrolled_students + self.graduated_students)
-
-    def __repr__(self):
-        return f"Name: {self.name}, Abbreviation: ({self.abbreviation}), Study Field: {self.study_field.name}"
-
+    def display_graduates(self):
+        print(f"Graduates from {self.name} faculty are:")
+        found = False
+        for student in self.students:
+            if student.graduated:
+                print(f"{student.firstName} {student.lastName} ({student.email})")
+                found = True
+        if not found:
+            print("No graduates yet.")
+            
+    def student_belongs(self, student_email):
+        for student in self.students:
+            if student.email == student_email and not student.graduated:
+                return True
+        return False
+    
+    def find_student(self, student_email):
+        for student in self.students:
+            if student.email == student_email:
+                return True
+        return False
+    
+    def display_study_field(self):
+        return self.studyField
+    
